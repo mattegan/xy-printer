@@ -1,0 +1,14 @@
+--cpu Cortex-M3
+"mbed/TARGET_LPC1768/TOOLCHAIN_ARM_STD/cmsis_nvic.o"
+"mbed/TARGET_LPC1768/TOOLCHAIN_ARM_STD/mbed.ar"
+"mbed/TARGET_LPC1768/TOOLCHAIN_ARM_STD/mbed_board.o"
+"mbed/TARGET_LPC1768/TOOLCHAIN_ARM_STD/retarget.o"
+"mbed/TARGET_LPC1768/TOOLCHAIN_ARM_STD/startup_LPC17xx.o"
+"mbed/TARGET_LPC1768/TOOLCHAIN_ARM_STD/sys.o"
+"mbed/TARGET_LPC1768/TOOLCHAIN_ARM_STD/system_LPC17xx.o"
+".\build\uvision5\main.o"
+".\build\uvision5\serialcommander.o"
+--scatter "mbed/TARGET_LPC1768/TOOLCHAIN_ARM_STD/LPC1768.sct"
+--summary_stderr --info summarysizes --map --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list ".\build\printer_motor_test.map" -o .\build\uvision5\printer_motor_test.axf
