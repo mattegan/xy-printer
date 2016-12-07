@@ -21,7 +21,7 @@ public:
     // positive is to the right
     // negative is to the left
     int count;
-    int goal;
+    float goal;
     int last_error;
     float error_integral, output, iterm, dterm;
     float dt;

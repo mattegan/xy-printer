@@ -94,7 +94,7 @@
             // 
             this.penOffsetTrackbar.Dock = System.Windows.Forms.DockStyle.Top;
             this.penOffsetTrackbar.Location = new System.Drawing.Point(3, 16);
-            this.penOffsetTrackbar.Maximum = 300;
+            this.penOffsetTrackbar.Maximum = 50;
             this.penOffsetTrackbar.Minimum = 1;
             this.penOffsetTrackbar.Name = "penOffsetTrackbar";
             this.penOffsetTrackbar.Size = new System.Drawing.Size(324, 45);
@@ -121,8 +121,8 @@
             // 
             this.innerRadiusTrackbar.Dock = System.Windows.Forms.DockStyle.Top;
             this.innerRadiusTrackbar.Location = new System.Drawing.Point(3, 16);
-            this.innerRadiusTrackbar.Maximum = 300;
-            this.innerRadiusTrackbar.Minimum = 1;
+            this.innerRadiusTrackbar.Maximum = 100;
+            this.innerRadiusTrackbar.Minimum = -100;
             this.innerRadiusTrackbar.Name = "innerRadiusTrackbar";
             this.innerRadiusTrackbar.Size = new System.Drawing.Size(322, 45);
             this.innerRadiusTrackbar.TabIndex = 1;
@@ -147,13 +147,13 @@
             this.outerRadiusTrackbar.Cursor = System.Windows.Forms.Cursors.Default;
             this.outerRadiusTrackbar.Dock = System.Windows.Forms.DockStyle.Top;
             this.outerRadiusTrackbar.Location = new System.Drawing.Point(3, 16);
-            this.outerRadiusTrackbar.Maximum = 300;
+            this.outerRadiusTrackbar.Maximum = 100;
             this.outerRadiusTrackbar.Minimum = 1;
             this.outerRadiusTrackbar.Name = "outerRadiusTrackbar";
             this.outerRadiusTrackbar.Size = new System.Drawing.Size(322, 45);
             this.outerRadiusTrackbar.TabIndex = 0;
             this.outerRadiusTrackbar.TickFrequency = 20;
-            this.outerRadiusTrackbar.Value = 1;
+            this.outerRadiusTrackbar.Value = 50;
             this.outerRadiusTrackbar.ValueChanged += new System.EventHandler(this.UpdateSpirographDisplay);
             // 
             // viewer

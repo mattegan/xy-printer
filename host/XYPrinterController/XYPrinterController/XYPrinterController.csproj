@@ -56,7 +56,7 @@
     <Compile Include="PrintWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
+    <Compile Include="PrintWindow.Designer.cs">
       <DependentUpon>PrintWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="XYPrinter.cs" />
@@ -80,11 +80,11 @@
     <EmbeddedResource Include="AboutBox.resx">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>PrintWindow.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PrintWindow.resx">
+      <DependentUpon>PrintWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

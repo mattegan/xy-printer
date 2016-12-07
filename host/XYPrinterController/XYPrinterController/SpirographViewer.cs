@@ -13,6 +13,7 @@ namespace XYPrinterController
         public int r = 54; // smaller inner circle
         public int p = 22; // distance of hole from center of inner circle
         public double dt = 0.2; // the number of radians the inside circle turns each draw step
+        public List<PointF> points;
 
         public SpirographViewer()
         {
@@ -62,7 +63,7 @@ namespace XYPrinterController
             // generate a list of points for every t += dt until finalTime, for each
             // point, keep track of the maximum radius we've seen, so that we can resize the
             // spirograph to fit inside the view            
-            List<PointF> points = new List<PointF>();
+            points = new List<PointF>();
             PointF current;
             double maxRadius = 0, currentRadius;
             while (t < finalTime)
@@ -98,6 +99,17 @@ namespace XYPrinterController
             p.Dispose();        
             
 
+        }
+
+        // scaling function that can be used by outside code
+        public List<PointF> scalePoints(List<PointF> points, float scaleFactor)
+        {
+            List<PointF> results = new List<PointF>();
+            for (int i = 0; i < points.Count; i++)
+            {
+                results[i] = new PointF(points[i].X * scaleFactor, points[i].Y * scaleFactor);
+            }
+            return results;
         }
 
         private double Radius(PointF p)

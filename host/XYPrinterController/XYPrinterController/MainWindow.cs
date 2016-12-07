@@ -17,19 +17,20 @@ namespace XYPrinterController
 
         XYPrinter selectedPrinter;
         List<XYPrinter> availablePrinters = new List<XYPrinter>();
+        UserControl currentDrawControl;
 
         public MainWindow()
         {
             InitializeComponent();
-            //selectedPrinter = new XYPrinter("COM3");
+            selectedPrinter = new XYPrinter("COM3");
         }
 
         private void spirographToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            UserControl spirographDesignControl = new SpirographDesignControl();
-            this.Controls.Add(spirographDesignControl);
-            this.Controls.SetChildIndex(spirographDesignControl, 0);
-            spirographDesignControl.Dock = DockStyle.Fill;
+            currentDrawControl = new SpirographDesignControl();
+            this.Controls.Add(currentDrawControl);
+            this.Controls.SetChildIndex(currentDrawControl, 0);
+            currentDrawControl.Dock = DockStyle.Fill;
         }
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -75,7 +76,7 @@ namespace XYPrinterController
 
         private void printToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if(printToolStripMenuItem.Enabled = true)
+            if(printToolStripMenuItem.Enabled == true)
             {
                 // check to make sure printer is connected
                 if(selectedPrinter.port.IsOpen)
@@ -83,6 +84,7 @@ namespace XYPrinterController
                     // now open the print window, passing a reference to the printer
                     PrintWindow printWindow = new PrintWindow();
                     printWindow.printer = selectedPrinter;
+                    printWindow.printMaterial = ((SpirographDesignControl)currentDrawControl).getPointsToPrint();
                     printWindow.ShowDialog();
                 }
             }

@@ -24,5 +24,10 @@ namespace XYPrinterController
             viewer.p = penOffsetTrackbar.Value;
             viewer.Invalidate();
         }
+
+        public List<PointF> getPointsToPrint()
+        {
+            return viewer.points;
+        }
     }
 }
