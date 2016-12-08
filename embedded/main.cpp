@@ -165,6 +165,12 @@ void serial_move_callback(char argv[10][100], int argc) {
 	}
 }
 
+void serial_relative_move_callback(char argv[10][100], int argc) {
+	current_positioning_mode = REL;
+	serial_move_callback(argv, argc);
+	current_positioning_mode = ABS;
+}
+
 void register_commands() {
 
 	// heartbeat
@@ -184,6 +190,9 @@ void register_commands() {
 	
 	// move
 	SerialCommander::instance()->register_command((char *)"m", 2, serial_move_callback);
+
+	// move
+	SerialCommander::instance()->register_command((char *)"rm", 2, serial_relative_move_callback);
 }
 
 int main() {

@@ -100,7 +100,7 @@
             this.penOffsetTrackbar.Size = new System.Drawing.Size(324, 45);
             this.penOffsetTrackbar.TabIndex = 1;
             this.penOffsetTrackbar.TickFrequency = 20;
-            this.penOffsetTrackbar.Value = 1;
+            this.penOffsetTrackbar.Value = 33;
             this.penOffsetTrackbar.ValueChanged += new System.EventHandler(this.UpdateSpirographDisplay);
             // 
             // groupBox3
@@ -127,7 +127,7 @@
             this.innerRadiusTrackbar.Size = new System.Drawing.Size(322, 45);
             this.innerRadiusTrackbar.TabIndex = 1;
             this.innerRadiusTrackbar.TickFrequency = 20;
-            this.innerRadiusTrackbar.Value = 1;
+            this.innerRadiusTrackbar.Value = 15;
             this.innerRadiusTrackbar.ValueChanged += new System.EventHandler(this.UpdateSpirographDisplay);
             // 
             // groupBox2
@@ -153,7 +153,7 @@
             this.outerRadiusTrackbar.Size = new System.Drawing.Size(322, 45);
             this.outerRadiusTrackbar.TabIndex = 0;
             this.outerRadiusTrackbar.TickFrequency = 20;
-            this.outerRadiusTrackbar.Value = 50;
+            this.outerRadiusTrackbar.Value = 37;
             this.outerRadiusTrackbar.ValueChanged += new System.EventHandler(this.UpdateSpirographDisplay);
             // 
             // viewer

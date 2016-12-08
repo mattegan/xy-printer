@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace XYPrinterController
 {
@@ -22,6 +23,7 @@ namespace XYPrinterController
             viewer.R = outerRadiusTrackbar.Value;
             viewer.r = innerRadiusTrackbar.Value;
             viewer.p = penOffsetTrackbar.Value;
+            Debug.WriteLine(viewer.R + " " + viewer.r + " " + viewer.p);
             viewer.Invalidate();
         }
 

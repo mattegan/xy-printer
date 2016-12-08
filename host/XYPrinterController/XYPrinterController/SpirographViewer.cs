@@ -57,7 +57,7 @@ namespace XYPrinterController
 
             // this representes how many t we'll iterate for, there might be a better way to
             // do this (or make it user adjustable)
-            double finalTime = 2 * Math.PI * 200;
+            double finalTime = 2 * Math.PI * 20;
             double t = 0;
 
             // generate a list of points for every t += dt until finalTime, for each

@@ -17,52 +17,176 @@ namespace XYPrinterController
         public XYPrinter printer;
         bool waitingForPosition = false;
         public List<PointF> printMaterial = new List<PointF>();
-        int printIncrement = 10;
-        int currentPoint = 0;
+        int printIncrement = 1;
+        int currentPrintPoint = 0;
+
+        enum printState {
+            WAITING_FOR_SERIAL_RESPONSE,
+            NEEDS_MOVE_TOP_LEFT,
+            NEEDS_MOVE_BOTTOM_RIGHT,
+            READY_TO_PRINT,
+            WAITING_FOR_UNCLICK,
+            WAITING_FOR_CLICK,
+            PRINTING,
+            FINISHED_PRINTING};
+        printState currentState = printState.NEEDS_MOVE_TOP_LEFT;
+        printState stateBeforeTraverse;
 
         public PrintWindow()
         {
             InitializeComponent();
         }
 
-        private void movedToPositionCallback(List<string> results)
+        private void movePrinter(object sender, EventArgs e)
         {
-            Debug.WriteLine(results);
-            currentPoint += printIncrement;
-
-
-            if (currentPoint < printMaterial.Count)
+            int xChange = 0;
+            int yChange = 0;
+            if(sender == upButton)
             {
-                sendPoint();
+                yChange = traverseIncrement.Value;
+            } else if(sender == downButton)
+            {
+                yChange = -traverseIncrement.Value;
+            } else if(sender == leftButton)
+            {
+                xChange = -traverseIncrement.Value;    
+            } else if(sender == rightButton)
+            {
+                xChange = traverseIncrement.Value;
+            }
+            stateBeforeTraverse = currentState;
+            currentState = printState.WAITING_FOR_SERIAL_RESPONSE;
+            printer.SendCommand("rm", new List<dynamic> { xChange, yChange }, new XYPrinter.ResponseDelegate(printerTraversedCallback));
+        }
+
+        private void printerTraversedCallback(List<string> response)
+        {
+            currentState = stateBeforeTraverse;
+        }
+
+        private void takeNextAction(object sender, EventArgs e)
+        {
+            switch(currentState)
+            {
+                case printState.NEEDS_MOVE_TOP_LEFT:
+                    handleSetTopLeftPoint();
+                    break;
+                case printState.NEEDS_MOVE_BOTTOM_RIGHT:
+                    handleSetBottomRightPoint();
+                    break;
+                case printState.READY_TO_PRINT:
+                    startPrinting();
+                    break;
             }
         }
 
-        private void startPrint(object sender, EventArgs e)
+        private void handleSetTopLeftPoint()
         {
-            int max_x = 0;
-            int max_y = 0;
+            currentState = printState.WAITING_FOR_SERIAL_RESPONSE;
+            printer.SendCommand("p", new List<dynamic> { 0, 0 }, new XYPrinter.ResponseDelegate(topLeftPointSetCallback));
+        }
+
+        private void topLeftPointSetCallback(List<string> responses)
+        {
+            this.Invoke((MethodInvoker) delegate
+            {
+                currentState = printState.NEEDS_MOVE_BOTTOM_RIGHT;
+                statusLabel.Text = "Move Printer To Bottom Right";
+                printViewer.paperTopLeft = new PointF(0, 0);
+                printViewer.currentDrawState = PrintViewControl.drawState.TOP_LEFT;
+                printViewer.Invalidate();
+            });
+
+        }
+
+        private void handleSetBottomRightPoint()
+        {
+            currentState = printState.WAITING_FOR_SERIAL_RESPONSE;
+            printer.SendQuery("p", new XYPrinter.ResponseDelegate(bottomRightPointQueryCallback));
+        }
+
+        private void bottomRightPointQueryCallback(List <string> responses)
+        {
+            this.Invoke((MethodInvoker) delegate
+            {
+                int x = Convert.ToInt16(responses[0]);
+                int y = Convert.ToInt16(responses[1]);
+                preparePointsForPrinting(new SizeF(x, y));
+            });
+        }
+
+        private void preparePointsForPrinting(SizeF paperSize)
+        {
+
+            // tell the printViewer what the paper size was
+            printViewer.paperBottomRight = new PointF(paperSize.Width, paperSize.Height);
+
+            // search through the points for the min x, min y, max x, max y;
+
+            float minX, maxX, minY, maxY;
+            minX = maxX = printMaterial[0].X;
+            minY = maxY = printMaterial[0].Y;
             for(int i = 0; i < printMaterial.Count; i++)
             {
-                if(printMaterial[i].X > max_x)
-                {
-                    max_x = (int)printMaterial[i].X;
-                }
-                if (printMaterial[i].Y > max_x)
-                {
-                    max_y = (int)printMaterial[i].Y;
-                }
+                PointF p = printMaterial[i];
+                if(p.X > maxX) { maxX = p.X; }
+                if(p.X < minX) { minX = p.X; }
+                if(p.Y > maxY) { maxY = p.Y; }
+                if(p.Y < minY) { minY = p.Y; }
             }
-            Debug.WriteLine("X: " + max_x + " -- Y: " + max_y);
-            printIncrement = printMaterial.Count / 5000;
-            Debug.WriteLine(printIncrement);
-            currentPoint = 0;
+
+            float drawingWidth = maxX - minX;
+            float drawingHeight = maxY - minY;
+
+            float widthRatio = paperSize.Width / (float)drawingWidth;
+            float heightRatio = paperSize.Height / (float)drawingHeight;
+            float scaleFactor = Math.Min(widthRatio, heightRatio);
+
+            float paperCenterX = paperSize.Width / 2;
+            float paperCenterY = paperSize.Height / 2;
+            float drawingCenterX = (drawingWidth / 2) + minX;
+            float drawingCenterY = (drawingHeight / 2) + minY;
+
+            for (int i = 0; i < printMaterial.Count; i++)
+            {
+                PointF p = printMaterial[i];
+                printMaterial[i] = new PointF(((p.X - drawingCenterX) * scaleFactor) + paperCenterX, ((p.Y - drawingCenterY) * scaleFactor) + paperCenterY);
+            }
+
+            printViewer.printPoints = printMaterial;
+            printViewer.currentDrawState = PrintViewControl.drawState.ALL_POINTS;
+            printViewer.Invalidate();
+
+            currentState = printState.READY_TO_PRINT;
+            statusLabel.Text = "Ready To Print";
+
+        }
+
+        private void startPrinting()
+        {
+            currentStatea = printState.PRINTING;
+            statusLabel.Text = "Printing!";
+            currentPrintPoint = 0;
             sendPoint();
         }
 
+        private void movedToPositionCallback(List<string> results)
+        {
+            this.Invoke((MethodInvoker)delegate
+            {
+                currentPrintPoint += printIncrement;
+                if (currentPrintPoint < printMaterial.Count)
+                {
+                    sendPoint();
+                }
+            });
+        }
+
+
         private void sendPoint()
         {
-            int x = (int)Math.Floor(printMaterial[currentPoint].X);
-            int y = (int)Math.Floor(printMaterial[currentPoint].Y);
+            int x = (int)Math.Floor(printMaterial[currentPrintPoint].X);
+            int y = (int)Math.Floor(printMaterial[currentPrintPoint].Y);
             Debug.WriteLine("X: " + x + " -- Y: " + y);
             printer.SendCommand("m", new List<dynamic> { x, y }, new XYPrinter.ResponseDelegate(movedToPositionCallback));
         }
