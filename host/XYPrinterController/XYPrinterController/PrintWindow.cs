@@ -30,7 +30,8 @@ namespace XYPrinterController
             PRINTING,
             FINISHED_PRINTING};
         printState currentState = printState.NEEDS_MOVE_TOP_LEFT;
-        printState stateBeforeTraverse;
+
+        bool waitingForSerialResponse = false;
 
         public PrintWindow()
         {
@@ -43,10 +44,10 @@ namespace XYPrinterController
             int yChange = 0;
             if(sender == upButton)
             {
-                yChange = traverseIncrement.Value;
+                yChange = -traverseIncrement.Value;
             } else if(sender == downButton)
             {
-                yChange = -traverseIncrement.Value;
+                yChange = traverseIncrement.Value;
             } else if(sender == leftButton)
             {
                 xChange = -traverseIncrement.Value;    
@@ -54,14 +55,13 @@ namespace XYPrinterController
             {
                 xChange = traverseIncrement.Value;
             }
-            stateBeforeTraverse = currentState;
-            currentState = printState.WAITING_FOR_SERIAL_RESPONSE;
+            waitingForSerialResponse = true;
             printer.SendCommand("rm", new List<dynamic> { xChange, yChange }, new XYPrinter.ResponseDelegate(printerTraversedCallback));
         }
 
         private void printerTraversedCallback(List<string> response)
         {
-            currentState = stateBeforeTraverse;
+            waitingForSerialResponse = false;
         }
 
         private void takeNextAction(object sender, EventArgs e)
@@ -82,7 +82,7 @@ namespace XYPrinterController
 
         private void handleSetTopLeftPoint()
         {
-            currentState = printState.WAITING_FOR_SERIAL_RESPONSE;
+            waitingForSerialResponse = true;
             printer.SendCommand("p", new List<dynamic> { 0, 0 }, new XYPrinter.ResponseDelegate(topLeftPointSetCallback));
         }
 
@@ -90,6 +90,7 @@ namespace XYPrinterController
         {
             this.Invoke((MethodInvoker) delegate
             {
+                waitingForSerialResponse = false;
                 currentState = printState.NEEDS_MOVE_BOTTOM_RIGHT;
                 statusLabel.Text = "Move Printer To Bottom Right";
                 printViewer.paperTopLeft = new PointF(0, 0);
@@ -101,7 +102,7 @@ namespace XYPrinterController
 
         private void handleSetBottomRightPoint()
         {
-            currentState = printState.WAITING_FOR_SERIAL_RESPONSE;
+            waitingForSerialResponse = true;
             printer.SendQuery("p", new XYPrinter.ResponseDelegate(bottomRightPointQueryCallback));
         }
 
@@ -109,6 +110,7 @@ namespace XYPrinterController
         {
             this.Invoke((MethodInvoker) delegate
             {
+                waitingForSerialResponse = false;
                 int x = Convert.ToInt16(responses[0]);
                 int y = Convert.ToInt16(responses[1]);
                 preparePointsForPrinting(new SizeF(x, y));
@@ -164,7 +166,7 @@ namespace XYPrinterController
 
         private void startPrinting()
         {
-            currentStatea = printState.PRINTING;
+            currentState = printState.PRINTING;
             statusLabel.Text = "Printing!";
             currentPrintPoint = 0;
             sendPoint();
@@ -177,6 +179,7 @@ namespace XYPrinterController
                 currentPrintPoint += printIncrement;
                 if (currentPrintPoint < printMaterial.Count)
                 {
+                    waitingForSerialResponse = false;
                     sendPoint();
                 }
             });
@@ -185,10 +188,13 @@ namespace XYPrinterController
 
         private void sendPoint()
         {
+            waitingForSerialResponse = true;
+            printViewer.printProgressIndex = currentPrintPoint;
             int x = (int)Math.Floor(printMaterial[currentPrintPoint].X);
             int y = (int)Math.Floor(printMaterial[currentPrintPoint].Y);
             Debug.WriteLine("X: " + x + " -- Y: " + y);
             printer.SendCommand("m", new List<dynamic> { x, y }, new XYPrinter.ResponseDelegate(movedToPositionCallback));
+            printViewer.Invalidate();
         }
     }
 }

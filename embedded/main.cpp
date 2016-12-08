@@ -20,7 +20,7 @@ PrintHead x_head(p11, p12, p25, p17, p18);
 enum positioning_mode {ABS, REL};
 enum positioning_mode current_positioning_mode = ABS;
 
-int feedrate = 500;
+int feedrate = 600;
 int update_rate = 500; //Hz
 int x_goal = 0;
 int y_goal = 0;
@@ -100,11 +100,11 @@ void serial_position_callback(char argv[10][100], int argc) {
 		int x = atoi(argv[0]);
 		int y = atoi(argv[1]);
 		if(current_positioning_mode == ABS) {
-			x_head.count = x;
-			y_head.count = y;
+			x_head.count = x_head.goal = x;
+			y_head.count = x_head.goal = y;
 		} else if(current_positioning_mode == REL) {
-			x_head.count += x;
-			y_head.count += y;
+			x_head.goal = (x_head.count += x);
+			x_head.goal = (y_head.count += y);
 		}
 		SerialCommander::instance()->send_ack();
 	} else {

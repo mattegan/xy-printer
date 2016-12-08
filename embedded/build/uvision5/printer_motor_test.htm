@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\build\uvision5\printer_motor_test.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\build\uvision5\printer_motor_test.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060422: Last Updated: Wed Dec 07 20:02:23 2016
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060422: Last Updated: Wed Dec 07 21:41:54 2016
 <BR><P>
 <H3>Maximum Stack Usage =       1832 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -1717,7 +1717,7 @@ Global Symbols
 <BR>[Address Reference Count : 2]<UL><LI> main.o(i.main)
 <LI> main.o(i._Z17register_commandsv)
 </UL>
-<P><STRONG><a name="[49]"></a>serial_position_callback(char(*)[100], int)</STRONG> (Thumb, 132 bytes, Stack size 1024 bytes, main.o(i._Z24serial_position_callbackPA100_ci))
+<P><STRONG><a name="[49]"></a>serial_position_callback(char(*)[100], int)</STRONG> (Thumb, 164 bytes, Stack size 1024 bytes, main.o(i._Z24serial_position_callbackPA100_ci))
 <BR><BR>[Stack]<UL><LI>Max Depth = 1792 + Unknown Stack Size
 <LI>Call Chain = serial_position_callback(char(*)[100], int) &rArr; SerialCommander::instance() &rArr; mbed::Serial::Serial(PinName, PinName, const char*) &rArr; mbed::Stream::Stream__sub_object(const char*) &rArr; fopen &rArr; freopen &rArr; _fclose_internal &rArr; _fflush &rArr; _writebuf &rArr; _sys_write &rArr; serial_baud &rArr; mbed_assert_internal &rArr; mbed_error_printf &rArr; serial_init &rArr;  serial_baud (Cycle)
 </UL>
@@ -1727,6 +1727,8 @@ Global Symbols
 <LI><a href="#[139]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SerialCommander::send_return(char(*)[100], int)
 <LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;atoi
 <LI><a href="#[ce]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2sprintf
+<LI><a href="#[12d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_i2f
+<LI><a href="#[131]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2iz
 </UL>
 <BR>[Address Reference Count : 2]<UL><LI> main.o(i.main)
 <LI> main.o(i._Z17register_commandsv)
@@ -3310,6 +3312,7 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = __aeabi_f2iz
 </UL>
 <BR>[Called By]<UL><LI><a href="#[183]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pwmout_period
+<LI><a href="#[49]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;serial_position_callback(char(*)[100], int)
 <LI><a href="#[12c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;initiate_move(int, int)
 <LI><a href="#[63]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PrintHead::update_motor()
 </UL>
@@ -3331,7 +3334,8 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[12d]"></a>__aeabi_i2f</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, fflt_clz.o(x$fpl$fflt))
-<BR><BR>[Called By]<UL><LI><a href="#[12c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;initiate_move(int, int)
+<BR><BR>[Called By]<UL><LI><a href="#[49]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;serial_position_callback(char(*)[100], int)
+<LI><a href="#[12c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;initiate_move(int, int)
 <LI><a href="#[12b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;$Super$$main
 <LI><a href="#[63]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PrintHead::update_motor()
 </UL>

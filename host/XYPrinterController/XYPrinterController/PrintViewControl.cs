@@ -28,7 +28,9 @@ namespace XYPrinterController
         public PointF currentPosition;
         public int padding;
         public float scaleFactor;
+        
         public List<PointF> printPoints;
+        public int printProgressIndex = 0;
 
         public PrintViewControl()
         {
@@ -51,6 +53,7 @@ namespace XYPrinterController
             Graphics g = args.Graphics;
             Pen pg = new Pen(Color.DarkGray);
             Pen pb = new Pen(Color.Black);
+            Pen pr = new Pen(Color.OrangeRed);
 
             g.Clear(Color.White);
 
@@ -76,10 +79,19 @@ namespace XYPrinterController
                 float heightRatio = maxPossibleHeight / (float)drawableAreaHeight;
                 scaleFactor = Math.Min(widthRatio, heightRatio);
 
-                g.DrawRectangle(pb, Rectangle.Round(new RectangleF(tickToPixelPad(paperTopLeft), new SizeF(tickToPixel(paperBottomRight)))));
+                g.DrawRectangle(pg, Rectangle.Round(new RectangleF(tickToPixelPad(paperTopLeft), new SizeF(tickToPixel(paperBottomRight)))));
 
-                g.DrawLines(pg, tickToPixelPad(this.printPoints).ToArray());
-                          
+
+                int remaining = printPoints.Count - printProgressIndex;
+                if(printProgressIndex > 2)
+                {
+                    g.DrawLines(pr, tickToPixelPad(this.printPoints.GetRange(0, printProgressIndex)).ToArray());
+                }
+                if (remaining > 2)
+                {
+                    g.DrawLines(pg, tickToPixelPad(this.printPoints.GetRange(printProgressIndex, remaining)).ToArray());
+                }
+
             }
         }
 
