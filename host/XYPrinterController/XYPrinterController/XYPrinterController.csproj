@@ -53,6 +53,13 @@
     <Compile Include="AboutBox.Designer.cs">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="DrawDesignViewer.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="DrawDesignViewer.Designer.cs">
+      <DependentUpon>DrawDesignViewer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DrawControl.cs" />
     <Compile Include="PrintViewControl.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -64,6 +71,12 @@
     </Compile>
     <Compile Include="PrintWindow.Designer.cs">
       <DependentUpon>PrintWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DrawDesignControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DrawDesignControl.Designer.cs">
+      <DependentUpon>DrawDesignControl.cs</DependentUpon>
     </Compile>
     <Compile Include="XYPrinter.cs" />
     <Compile Include="SpirographViewer.cs">
@@ -106,6 +119,9 @@
     </Compile>
     <EmbeddedResource Include="SpirographDesignControl.resx">
       <DependentUpon>SpirographDesignControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DrawDesignControl.resx">
+      <DependentUpon>DrawDesignControl.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

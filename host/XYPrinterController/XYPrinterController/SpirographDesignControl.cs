@@ -11,7 +11,7 @@ using System.Diagnostics;
 
 namespace XYPrinterController
 {
-    public partial class SpirographDesignControl : UserControl
+    public partial class SpirographDesignControl : UserControl, DrawControl
     {
         public SpirographDesignControl()
         {

@@ -71,21 +71,22 @@
             this.spirographToolStripMenuItem,
             this.lineDrawingToolStripMenuItem});
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(98, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.newToolStripMenuItem.Text = "New";
             // 
             // spirographToolStripMenuItem
             // 
             this.spirographToolStripMenuItem.Name = "spirographToolStripMenuItem";
-            this.spirographToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.spirographToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.spirographToolStripMenuItem.Text = "Spirograph";
             this.spirographToolStripMenuItem.Click += new System.EventHandler(this.spirographToolStripMenuItem_Click);
             // 
             // lineDrawingToolStripMenuItem
             // 
             this.lineDrawingToolStripMenuItem.Name = "lineDrawingToolStripMenuItem";
-            this.lineDrawingToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.lineDrawingToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.lineDrawingToolStripMenuItem.Text = "Line Drawing";
+            this.lineDrawingToolStripMenuItem.Click += new System.EventHandler(this.newLineDrawingButtonClick);
             // 
             // printerToolStripMenuItem
             // 

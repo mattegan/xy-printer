@@ -27,10 +27,29 @@ namespace XYPrinterController
 
         private void spirographToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            removeCurrentDrawControl();
             currentDrawControl = new SpirographDesignControl();
             this.Controls.Add(currentDrawControl);
             this.Controls.SetChildIndex(currentDrawControl, 0);
             currentDrawControl.Dock = DockStyle.Fill;
+        }
+
+
+        private void newLineDrawingButtonClick(object sender, EventArgs e)
+        {
+            removeCurrentDrawControl();
+            currentDrawControl = new DrawDesignControl();
+            this.Controls.Add(currentDrawControl);
+            this.Controls.SetChildIndex(currentDrawControl, 0);
+            currentDrawControl.Dock = DockStyle.Fill;
+        }
+
+        private void removeCurrentDrawControl()
+        {
+            if(currentDrawControl != null)
+            {
+                this.Controls.Remove(currentDrawControl);
+            }
         }
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -84,10 +103,11 @@ namespace XYPrinterController
                     // now open the print window, passing a reference to the printer
                     PrintWindow printWindow = new PrintWindow();
                     printWindow.printer = selectedPrinter;
-                    printWindow.printMaterial = ((SpirographDesignControl)currentDrawControl).getPointsToPrint();
+                    printWindow.printMaterial = ((DrawControl)currentDrawControl).getPointsToPrint();
                     printWindow.ShowDialog();
                 }
             }
         }
+
     }
 }
