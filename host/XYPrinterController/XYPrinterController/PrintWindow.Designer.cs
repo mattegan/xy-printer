@@ -53,12 +53,12 @@
             // statusLabel
             // 
             this.statusLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.statusLabel.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.statusLabel.Location = new System.Drawing.Point(758, 490);
+            this.statusLabel.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.statusLabel.Location = new System.Drawing.Point(759, 502);
             this.statusLabel.Name = "statusLabel";
             this.statusLabel.Size = new System.Drawing.Size(210, 27);
             this.statusLabel.TabIndex = 2;
-            this.statusLabel.Text = "Move Printer To Top Right";
+            this.statusLabel.Text = "Move Printer To Top Left";
             this.statusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // rightButton
